@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager_and_weather/presentation/common/app_button.dart';
+import 'package:task_manager_and_weather/presentation/weather_screen/weather_screen.dart';
 
 class TaskWeatherApp extends StatelessWidget{
 
@@ -7,14 +8,16 @@ class TaskWeatherApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return  Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             AppButton(
               text: "Weather",
               onPressed: (){
+                _goToWeather(context);
                 print("weather");
               },
             ),
@@ -26,8 +29,9 @@ class TaskWeatherApp extends StatelessWidget{
             ),
           ],
         ),
-      ),
-    );
+      );
   }
-
+  _goToWeather(BuildContext context){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => WeatherScreen()));
+  }
 }

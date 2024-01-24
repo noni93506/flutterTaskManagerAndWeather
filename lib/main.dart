@@ -6,6 +6,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppServiceLocator.setup();
 
-  runApp(const TaskWeatherApp());
+  runApp(const MaterialApp(home: TaskWeatherApp()));
 }
 

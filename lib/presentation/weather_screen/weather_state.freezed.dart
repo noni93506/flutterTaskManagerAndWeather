@@ -16,7 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WeatherState {
-  Weather? get weather => throw _privateConstructorUsedError;
+  Exception? get exception => throw _privateConstructorUsedError;
+  WeatherData? get weather => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WeatherStateCopyWith<WeatherState> get copyWith =>
@@ -29,7 +31,7 @@ abstract class $WeatherStateCopyWith<$Res> {
           WeatherState value, $Res Function(WeatherState) then) =
       _$WeatherStateCopyWithImpl<$Res, WeatherState>;
   @useResult
-  $Res call({Weather? weather});
+  $Res call({Exception? exception, WeatherData? weather, bool isLoading});
 }
 
 /// @nodoc
@@ -45,13 +47,23 @@ class _$WeatherStateCopyWithImpl<$Res, $Val extends WeatherState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exception = freezed,
     Object? weather = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
+      exception: freezed == exception
+          ? _value.exception
+          : exception // ignore: cast_nullable_to_non_nullable
+              as Exception?,
       weather: freezed == weather
           ? _value.weather
           : weather // ignore: cast_nullable_to_non_nullable
-              as Weather?,
+              as WeatherData?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -64,7 +76,7 @@ abstract class _$$WeatherStateImplCopyWith<$Res>
       __$$WeatherStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Weather? weather});
+  $Res call({Exception? exception, WeatherData? weather, bool isLoading});
 }
 
 /// @nodoc
@@ -78,13 +90,23 @@ class __$$WeatherStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? exception = freezed,
     Object? weather = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_$WeatherStateImpl(
+      exception: freezed == exception
+          ? _value.exception
+          : exception // ignore: cast_nullable_to_non_nullable
+              as Exception?,
       weather: freezed == weather
           ? _value.weather
           : weather // ignore: cast_nullable_to_non_nullable
-              as Weather?,
+              as WeatherData?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -92,14 +114,20 @@ class __$$WeatherStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$WeatherStateImpl extends _WeatherState {
-  const _$WeatherStateImpl({required this.weather}) : super._();
+  const _$WeatherStateImpl(
+      {required this.exception, required this.weather, required this.isLoading})
+      : super._();
 
   @override
-  final Weather? weather;
+  final Exception? exception;
+  @override
+  final WeatherData? weather;
+  @override
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'WeatherState(weather: $weather)';
+    return 'WeatherState(exception: $exception, weather: $weather, isLoading: $isLoading)';
   }
 
   @override
@@ -107,11 +135,15 @@ class _$WeatherStateImpl extends _WeatherState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WeatherStateImpl &&
-            (identical(other.weather, weather) || other.weather == weather));
+            (identical(other.exception, exception) ||
+                other.exception == exception) &&
+            (identical(other.weather, weather) || other.weather == weather) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, weather);
+  int get hashCode => Object.hash(runtimeType, exception, weather, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -121,12 +153,18 @@ class _$WeatherStateImpl extends _WeatherState {
 }
 
 abstract class _WeatherState extends WeatherState {
-  const factory _WeatherState({required final Weather? weather}) =
-      _$WeatherStateImpl;
+  const factory _WeatherState(
+      {required final Exception? exception,
+      required final WeatherData? weather,
+      required final bool isLoading}) = _$WeatherStateImpl;
   const _WeatherState._() : super._();
 
   @override
-  Weather? get weather;
+  Exception? get exception;
+  @override
+  WeatherData? get weather;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$WeatherStateImplCopyWith<_$WeatherStateImpl> get copyWith =>
