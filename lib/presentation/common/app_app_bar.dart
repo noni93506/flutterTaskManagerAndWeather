@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppAppBar extends StatelessWidget {
   final Widget body;
+  final VoidCallback? onFloatingActionButtonPressed;
 
   const AppAppBar({
     super.key,
     required this.body,
+    this.onFloatingActionButtonPressed,
   });
 
   @override
@@ -17,6 +19,7 @@ class AppAppBar extends StatelessWidget {
           icon: const Icon(Icons.chevron_left_sharp),
         ),
       ),
+
       body: body,
     );
   }

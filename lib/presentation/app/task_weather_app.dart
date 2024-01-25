@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager_and_weather/presentation/common/app_button.dart';
+import 'package:task_manager_and_weather/presentation/task_manager/task_manager_screen.dart';
 import 'package:task_manager_and_weather/presentation/weather_screen/weather_screen.dart';
 
 class TaskWeatherApp extends StatelessWidget{
@@ -24,6 +25,7 @@ class TaskWeatherApp extends StatelessWidget{
             AppButton(
               text: "Task Manager",
               onPressed: (){
+                _goToTasks(context);
                 print("task");
               },
             ),
@@ -31,7 +33,12 @@ class TaskWeatherApp extends StatelessWidget{
         ),
       );
   }
+
   _goToWeather(BuildContext context){
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => WeatherScreen()));
+  }
+
+  _goToTasks(BuildContext context){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TaskManager()));
   }
 }
