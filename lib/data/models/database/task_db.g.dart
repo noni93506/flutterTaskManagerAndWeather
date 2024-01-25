@@ -13,11 +13,13 @@ class TaskDB extends _TaskDB with RealmEntity, RealmObjectBase, RealmObject {
     String title,
     String description,
     int category,
+    bool done,
   ) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'description', description);
     RealmObjectBase.set(this, 'category', category);
+    RealmObjectBase.set(this, 'done', done);
   }
 
   TaskDB._();
@@ -45,6 +47,11 @@ class TaskDB extends _TaskDB with RealmEntity, RealmObjectBase, RealmObject {
   set category(int value) => RealmObjectBase.set(this, 'category', value);
 
   @override
+  bool get done => RealmObjectBase.get<bool>(this, 'done') as bool;
+  @override
+  set done(bool value) => RealmObjectBase.set(this, 'done', value);
+
+  @override
   Stream<RealmObjectChanges<TaskDB>> get changes =>
       RealmObjectBase.getChanges<TaskDB>(this);
 
@@ -60,6 +67,7 @@ class TaskDB extends _TaskDB with RealmEntity, RealmObjectBase, RealmObject {
       SchemaProperty('title', RealmPropertyType.string),
       SchemaProperty('description', RealmPropertyType.string),
       SchemaProperty('category', RealmPropertyType.int),
+      SchemaProperty('done', RealmPropertyType.bool),
     ]);
   }
 }

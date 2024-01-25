@@ -15,8 +15,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     required GetAllTasksUseCase getAllTasksUseCase,
     required LoadAllTasksUseCase loadAllTasksUseCase,
     required DeleteTaskUseCase deleteTaskUseCase,
-  })
-      : _getAllTasksUseCase = getAllTasksUseCase,
+  })  : _getAllTasksUseCase = getAllTasksUseCase,
         _loadAllTasksUseCase = loadAllTasksUseCase,
         _deleteTaskUseCase = deleteTaskUseCase,
         super(TaskManagerState.initial()) {
@@ -28,14 +27,15 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       if (first) {
         emit(state.copyWith(isLoading: true));
       }
+      await Future.delayed(const Duration(milliseconds: 300));
       List<Task> result = await _getAllTasksUseCase.execute();
-      if (result.isNotEmpty) {
-        emit(state.copyWith(initialTasks: result, filteredTasks: result));
-      }
-      emit(state.copyWith(isLoading: false));
+
+      print(result);
+      emit(state.copyWith(
+          initialTasks: result, filteredTasks: result, isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false));
-      print(e);
+      print("error get $e");
     }
   }
 
@@ -53,27 +53,61 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
   addTask({
     required String title,
     required String description,
-    required int category ,
+    required int category,
   }) async {
     List<Task> buffer = [];
     buffer.addAll(state.initialTasks);
     buffer.add(
       Task(
-        id: state.initialTasks.isNotEmpty ? state.initialTasks.last.id + 1: 0,
+        id: state.initialTasks.isNotEmpty ? state.initialTasks.last.id + 1 : 0,
         title: title,
-        description: description,//todo help yourself may not work
+        description: description,
         category: category,
-      ),);
+        done: false,
+      ),
+    );
     emit(state.copyWith(initialTasks: buffer));
     _saveTasks();
   }
 
   deleteTask(Task task) async {
-    state.initialTasks.remove(task);
-    emit(state.copyWith(initialTasks: state.initialTasks));
-     _deleteTaskUseCase.execute(task);
-     _getTasks(false);
+    List<Task> buffer = [];
+    buffer.addAll(state.initialTasks);
+    buffer.remove(task);
+    emit(state.copyWith(initialTasks: buffer));
+    _deleteTaskUseCase.execute(task);
+    _getTasks(false);
   }
 
+  markAsReady(Task task) async {
+    List<Task> buffer = [];
+    buffer.addAll(state.initialTasks);
+    buffer.remove(task);
+    buffer.add(task.copyWith(done: !task.done));
+    emit(state.copyWith(initialTasks: buffer));
+    _saveTasks();
+  }
 
+  sortByDone() {
+    List<Task> buffer = [];
+    buffer.addAll(state.initialTasks);
+    buffer.sort((a, b) {
+      if(a.done){
+        return 1;
+      } else {
+        return 0;
+      }
+      });
+    emit(state.copyWith(filteredTasks: buffer));
+  }
+  filterByCat(int number){
+    if(number != 9) {
+      List<Task> buffer = [];
+      buffer.addAll(state.initialTasks);
+      buffer.removeWhere((element) => element.category != number);
+      emit(state.copyWith(filteredTasks: buffer));
+    } else {
+      emit(state.copyWith(filteredTasks: state.initialTasks));
+    }
+  }
 }

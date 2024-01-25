@@ -34,6 +34,7 @@ class SecureLocalStorage {
 
   Future<List<int>?> getDatabaseKey() async {
     String? keyString = await _storage.read(key: _databaseEncryptionKey, iOptions: _iosOptions, aOptions: _androidOptions);
+    print(keyString.hashCode);
     List<int>? keyRestored = keyString?.split(',').map((e) => int.parse(e)).toList();
     return keyRestored;
   }

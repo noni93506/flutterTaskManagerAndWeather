@@ -13,6 +13,7 @@ class Task with _$Task {
     required String title,
     required String description,
     required int category,
+    required bool done,
   }) = _Task;
 
   TaskDB get toDBObject => TaskDB(
@@ -20,5 +21,6 @@ class Task with _$Task {
     title,
     description,
     category,
+    done,
   );
 }

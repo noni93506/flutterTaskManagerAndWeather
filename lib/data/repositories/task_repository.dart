@@ -21,7 +21,11 @@ class TaskRepositoryImpl extends TaskRepository{
 
   @override
   Future deleteTask(Task deletedTask) async {
-    _databaseManager.delete<TaskDB>(deletedTask.toDBObject);
+    await _databaseManager.initialized;
+    final buffer = _databaseManager.getObjectById<TaskDB>(deletedTask.id);
+    if(buffer!= null) {
+      await _databaseManager.delete<TaskDB>(buffer);
+    }
 
   }
 

@@ -20,6 +20,7 @@ mixin _$Task {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   int get category => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TaskCopyWith<Task> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +31,8 @@ abstract class $TaskCopyWith<$Res> {
   factory $TaskCopyWith(Task value, $Res Function(Task) then) =
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
-  $Res call({int id, String title, String description, int category});
+  $Res call(
+      {int id, String title, String description, int category, bool done});
 }
 
 /// @nodoc
@@ -50,6 +52,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? title = null,
     Object? description = null,
     Object? category = null,
+    Object? done = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -68,6 +71,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as int,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -79,7 +86,8 @@ abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
       __$$TaskImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String description, int category});
+  $Res call(
+      {int id, String title, String description, int category, bool done});
 }
 
 /// @nodoc
@@ -96,6 +104,7 @@ class __$$TaskImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? category = null,
+    Object? done = null,
   }) {
     return _then(_$TaskImpl(
       id: null == id
@@ -114,6 +123,10 @@ class __$$TaskImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as int,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -125,7 +138,8 @@ class _$TaskImpl extends _Task {
       {required this.id,
       required this.title,
       required this.description,
-      required this.category})
+      required this.category,
+      required this.done})
       : super._();
 
   @override
@@ -136,10 +150,12 @@ class _$TaskImpl extends _Task {
   final String description;
   @override
   final int category;
+  @override
+  final bool done;
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, category: $category)';
+    return 'Task(id: $id, title: $title, description: $description, category: $category, done: $done)';
   }
 
   @override
@@ -152,12 +168,13 @@ class _$TaskImpl extends _Task {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            (identical(other.done, done) || other.done == done));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, description, category);
+      Object.hash(runtimeType, id, title, description, category, done);
 
   @JsonKey(ignore: true)
   @override
@@ -171,7 +188,8 @@ abstract class _Task extends Task {
       {required final int id,
       required final String title,
       required final String description,
-      required final int category}) = _$TaskImpl;
+      required final int category,
+      required final bool done}) = _$TaskImpl;
   const _Task._() : super._();
 
   @override
@@ -182,6 +200,8 @@ abstract class _Task extends Task {
   String get description;
   @override
   int get category;
+  @override
+  bool get done;
   @override
   @JsonKey(ignore: true)
   _$$TaskImplCopyWith<_$TaskImpl> get copyWith =>

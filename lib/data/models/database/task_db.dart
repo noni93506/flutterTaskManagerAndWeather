@@ -9,11 +9,13 @@ class _TaskDB {
   late String title;
   late String description;
   late int category;
+  late bool done;
 
   Task get toDomain => Task(
     id: id,
     title: title,
     description: description,
     category : category,
+    done: done,
   );
 }

@@ -2,30 +2,24 @@ import 'dart:math';
 import 'package:convert/convert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
-import 'package:task_manager_and_weather/data/models/database/storage/app_setting_storage.dart';
 import 'package:task_manager_and_weather/data/models/database/storage/secure_local_storage.dart';
 import 'package:task_manager_and_weather/data/models/database/task_db.dart';
 
 class DatabaseManager {
   final SecureLocalStorage _secureLocalStorage;
-  final AppSettingsStorage _appSettingsStorage;
+
   late final Realm _realm;
   late Future _doneFuture;
 
   DatabaseManager({
     required SecureLocalStorage secureLocalStorage,
-    required AppSettingsStorage appSettingsStorage,
-  }): _secureLocalStorage = secureLocalStorage,
-        _appSettingsStorage = appSettingsStorage {
+  }): _secureLocalStorage = secureLocalStorage {
     _doneFuture = _initiateDatabase();
   }
 
   Future get initialized => _doneFuture;
 
-  _initiateDatabase() async {
-    if (!_appSettingsStorage.getIsFirstAppLaunchPerformed()) {
-      await _secureLocalStorage.deleteDatabaseKey();
-    }
+  _initiateDatabase() async {  // init function for local DB
 
     final key = await _getEncryptionKey();
     if (kDebugMode) {
