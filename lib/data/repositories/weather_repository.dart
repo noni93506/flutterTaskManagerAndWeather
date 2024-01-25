@@ -9,12 +9,7 @@ class WeatherRepositoryImpl extends WeatherRepository {
     try {
       final response =
            await Dio().get(EnvironmentKeys.initial().weatherApi);
-      //print(response.data);
-      final result = response.data;
-      print(result.runtimeType);
       return WeatherData(main: Main.fromJson(response.data["main"]));
-      return WeatherData.fromJson(result);
-        // WeatherData.fromJson(response.data);
     } catch (exception) {
       print(exception);
       return WeatherData( // todo remove when error handler is ready
