@@ -10,8 +10,8 @@ class TaskManagerState with _$TaskManagerState {
   const factory TaskManagerState({
     required List<Task> initialTasks,
     required List<Task> filteredTasks,
-    required Exception? exception,
-    required bool isLoading,
+    required Exception? exception, // for error snackbar to show up
+    required bool isLoading, //for loader to show up
   }) = _TaskManagerState;
 
   factory TaskManagerState.initial() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppSnackBar extends SnackBar {
+class AppSnackBar extends SnackBar { //Just a custom snackbar, could be multifunctional by using factory, and called by context extensions
   AppSnackBar({
     required Function(int) onAction,
     Key? key,

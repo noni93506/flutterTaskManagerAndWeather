@@ -16,7 +16,7 @@ class TaskManager extends StatelessWidget {
     return BlocConsumer<TaskManagerCubit, TaskManagerState>(
       bloc: _screenBloc,
       listener: (context, state) {
-        // todo loader and error handler
+        // todo in future can be added loader and error handler using context extension
       },
       builder: (context, state) {
         return Scaffold(
@@ -44,9 +44,11 @@ class TaskManager extends StatelessWidget {
               onPressed: () => _openAddTask(context),
             ),
             body: SingleChildScrollView(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                 for (var data in state.filteredTasks) ...{
-                  TaskTIle(
+                  TaskTile(
                     data: data,
                     onPressed: (task) => _screenBloc.markAsReady(task),
                     onLongTap: (task) => _screenBloc.deleteTask(task),
@@ -61,8 +63,9 @@ class TaskManager extends StatelessWidget {
   _openAddTask(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => AddTaskScreen(
-              onApply: (title, desc, cat) => _screenBloc.addTask(
-                  title: title, description: desc, category: cat),
+              onApply: (title, desc, cat) =>
+                  _screenBloc.addTask(title: title, description: desc, category: cat), /// to reduce code,
+          /// can change to single parameter Task but without cubit in AddTaskScreen, it would be problem to generate id for Task in there
             )));
   }
 

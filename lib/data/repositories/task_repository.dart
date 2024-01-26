@@ -10,19 +10,18 @@ class TaskRepositoryImpl extends TaskRepository{
 
   @override
   Future<List<Task>> getAllTask() async {
-    return  _databaseManager.getAllObjects<TaskDB>().map((e) => e.toDomain).toList();
+    return  _databaseManager.getAllObjects<TaskDB>().map((e) => e.toDomain).toList(); // get all TaskDB in DB
   }
 
   @override
   Future loadAllTask(List<Task> tasks) async {
-    final toDb = tasks.map((e) => e.toDBObject).toSet().toList();
+    final toDb = tasks.map((e) => e.toDBObject).toSet().toList(); //all of Task changes to TaskDB to be stored in DB
     await _databaseManager.saveObjects(toDb);
   }
 
   @override
   Future deleteTask(Task deletedTask) async {
-    await _databaseManager.initialized;
-    final buffer = _databaseManager.getObjectById<TaskDB>(deletedTask.id);
+    final buffer = _databaseManager.getObjectById<TaskDB>(deletedTask.id); // to delete an realm obj, it needs to be managed, so first we find it in DB than delete
     if(buffer!= null) {
       await _databaseManager.delete<TaskDB>(buffer);
     }

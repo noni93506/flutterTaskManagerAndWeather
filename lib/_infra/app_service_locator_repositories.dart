@@ -5,6 +5,7 @@ import 'package:task_manager_and_weather/data/repositories/weather_repository.da
 import 'package:task_manager_and_weather/domain/repositories/task_repository.dart';
 import 'package:task_manager_and_weather/domain/repositories/weather_repository.dart';
 
+/// all [Repository] dependency init
 class AppServiceLocatorRepositories {
   static Future<void> setup({required GetIt instance}) async {
     instance.registerLazySingleton<WeatherRepository>(

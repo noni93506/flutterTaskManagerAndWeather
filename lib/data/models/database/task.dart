@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:task_manager_and_weather/data/models/database/task_db.dart';
 
 part 'task.freezed.dart';
+/// domain for [TaskDB]
 
 @freezed
 class Task with _$Task {

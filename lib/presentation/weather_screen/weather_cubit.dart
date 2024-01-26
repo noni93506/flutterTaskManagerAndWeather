@@ -18,6 +18,6 @@ class WeatherCubit extends Cubit<WeatherState> {
     emit(state.copyWith(isLoading: true));
     WeatherData result = await _getWeatherUseCase.execute();
     emit(state.copyWith(isLoading: false, weather: result));
-    Future.delayed(const Duration(seconds: 20)).then((value) => _getWeather());
+    Future.delayed(const Duration(seconds: 20)).then((value) => _getWeather()); // get weather every 20 seconds
   }
 }

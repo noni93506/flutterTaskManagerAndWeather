@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:convert/convert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
 import 'package:task_manager_and_weather/data/models/database/storage/secure_local_storage.dart';
@@ -21,18 +20,14 @@ class DatabaseManager {
 
   _initiateDatabase() async {  // init function for local DB
 
-    final key = await _getEncryptionKey();
-    if (kDebugMode) {
-      final keyHash = hex.encode(key ?? []);
-      debugPrint('key hash: $keyHash');
-    }
+    final key = await _getEncryptionKey(); // tries to get or generate key
     final encryptedConfig = Configuration.local([
         TaskDB.schema,
       ],
       schemaVersion: 12,
       encryptionKey: key,
     );
-    final encryptedRealm = Realm(encryptedConfig);
+    final encryptedRealm = Realm(encryptedConfig);  // config db
     debugPrint('Realm location: ${encryptedConfig.path}');
     _realm = encryptedRealm;
   }
@@ -49,44 +44,41 @@ class DatabaseManager {
     }
   }
 
-  closeDatabase() {
+  closeDatabase() { // close DB
     _realm.close();
   }
 
-  Future<void> saveObjects<T extends RealmObject>(List<T> obj) async {
+  Future<void> saveObjects<T extends RealmObject>(List<T> obj) async { // async writing multiple data to db
     await _realm.writeAsync(() {
       _realm.addAll(obj, update: true);
     });
   }
 
-  Future<void> saveObject<T extends RealmObject>(T obj) async {
+  Future<void> saveObject<T extends RealmObject>(T obj) async { // async writing single data to db
     await _realm.writeAsync(() {
         _realm.add(obj, update: true);
     });
   }
 
-  T? getObjectById<T extends RealmObject>(Object? id) {
+  T? getObjectById<T extends RealmObject>(Object? id) { // find data in db by @RealmKey value
     if (id != null) {
       return _realm.find<T>(id);
     }
     return null;
   }
 
-  List<T> getAllObjects<T extends RealmObject>() {
+  List<T> getAllObjects<T extends RealmObject>() { // all db obj by type
     return _realm.all<T>().toList();
   }
 
-  List<T> getObjectsWithQuery<T extends RealmObject>(String query, [List<Object?> args = const []])  {
-    return _realm.query<T>(query, args).toList();
-  }
 
-  Future delete<T extends RealmObject>(T object) async {
+  Future delete<T extends RealmObject>(T object) async { // delete single obj
     await _realm.writeAsync(() {
       _realm.delete(object);
     });
   }
 
-  Future deleteMany<T extends RealmObject>(List<T> objects) async {
+  Future deleteMany<T extends RealmObject>(List<T> objects) async { // delete multiple obj
     await _realm.writeAsync(() {
       _realm.deleteMany(objects);
     });

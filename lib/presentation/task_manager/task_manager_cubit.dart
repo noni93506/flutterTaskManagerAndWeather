@@ -19,7 +19,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
         _loadAllTasksUseCase = loadAllTasksUseCase,
         _deleteTaskUseCase = deleteTaskUseCase,
         super(TaskManagerState.initial()) {
-    _getTasks(true);
+    _getTasks(true);  // when screen opens, initialize DB, get the key, and read TaskDB
   }
 
   _getTasks(bool first) async {
@@ -27,10 +27,8 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       if (first) {
         emit(state.copyWith(isLoading: true));
       }
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300)); // for DB to initialize, a little delay used
       List<Task> result = await _getAllTasksUseCase.execute();
-
-      print(result);
       emit(state.copyWith(
           initialTasks: result, filteredTasks: result, isLoading: false));
     } catch (e) {
@@ -59,7 +57,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     buffer.addAll(state.initialTasks);
     buffer.add(
       Task(
-        id: state.initialTasks.isNotEmpty ? state.initialTasks.last.id + 1 : 0,
+        id: state.initialTasks.isNotEmpty ? state.initialTasks.last.id + 1 : 0, // if there is no Task in db, give 0 as id, but if there is, finds the last id, and ads 1 to it
         title: title,
         description: description,
         category: category,
@@ -75,7 +73,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     buffer.addAll(state.initialTasks);
     buffer.remove(task);
     emit(state.copyWith(initialTasks: buffer));
-    _deleteTaskUseCase.execute(task);
+    _deleteTaskUseCase.execute(task); // for better ux, firstly update state, then delete in DB and get all from DB to be sure it deleted
     _getTasks(false);
   }
 
@@ -83,7 +81,8 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     List<Task> buffer = [];
     buffer.addAll(state.initialTasks);
     buffer.remove(task);
-    buffer.add(task.copyWith(done: !task.done));
+    buffer.add(task.copyWith(done: !task.done)); // could be done by other way like
+    // this : buffer.where((element) => element.id == task.id).first.copyWith(done: !task.done); but i don`t think it will work properly
     emit(state.copyWith(initialTasks: buffer));
     _saveTasks();
   }
@@ -97,7 +96,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       } else {
         return 0;
       }
-      });
+      }); // grouped by done check
     emit(state.copyWith(filteredTasks: buffer));
   }
   filterByCat(int number){
@@ -105,7 +104,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       List<Task> buffer = [];
       buffer.addAll(state.initialTasks);
       buffer.removeWhere((element) => element.category != number);
-      emit(state.copyWith(filteredTasks: buffer));
+      emit(state.copyWith(filteredTasks: buffer)); // simple filter by the category number selected in snackbar
     } else {
       emit(state.copyWith(filteredTasks: state.initialTasks));
     }

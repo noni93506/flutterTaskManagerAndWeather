@@ -16,15 +16,7 @@ class WeatherScreen extends StatelessWidget {
     return BlocConsumer<WeatherCubit, WeatherState>(
         bloc: _screenBloc,
         listener: (context, state) {
-          // if (state.isLoading) {
-          //   context.showLoading();
-          // } else {
-          //   context.hideLoading();
-          // }
-          // if (state.profileException != null) {
-          //   context.showErrorException(state.profileException);
-          // }
-          // here can be implemented simple loader callback and snack bar for error handler
+          /// same as in [task_manager_screen.dart]
         },
         builder: (context, state) {
           return AppAppBar (

@@ -16,9 +16,6 @@ class WeatherRepositoryImpl extends WeatherRepository {
           main:
               Main(temp: 0000, feelsLike: 0000, pressure: 0000),
       );
-
-      // throw .exceptionsHandler
-      //     .mapApiException(exception: exception); // todo implement exception handler
     }
   }
 }

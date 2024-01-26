@@ -3,7 +3,7 @@ import 'package:task_manager_and_weather/data/models/weather_data.dart';
 import 'package:task_manager_and_weather/resources/AppTextStyle.dart';
 
 class WeatherWidget extends StatelessWidget { // special widget for weather
-  final WeatherData? data; // it needs only weather information to show at least anything
+  final WeatherData? data; /// it needs only weather information with [WeatherData] class to show any information
 
   const WeatherWidget({
     Key? key,

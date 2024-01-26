@@ -36,7 +36,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,52 +48,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               TextField(
                 controller: _controllerDesc,
               ),
-              Row(//todo move
-                  children: [
-                    const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      cat = 0;
-                    });
-                  },
-                  child: const Icon(
-                    Icons.work,
-                    color: Colors.black,
-                  ),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      cat = 1;
-                    });
-                  },
-                  child: const Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      cat = 2;
-                    });
-                  },
-                  child: const Icon(
-                    Icons.sports_basketball,
-                    color: Colors.black,
-                  ),
-                ),
-                const Spacer(),
-              ]),
+              _ScreenCatSelector(
+                  onCatPressed: (category) => {
+                        setState(() {
+                          cat = category;
+                        })
+                      }),
               Row(//todo move
                   children: [
                 AppButton(
                     text: "apply",
                     onPressed: () {
-                      _addTask(_controllerTitle.text, _controllerDesc.text, cat);
+                      _addTask(
+                          _controllerTitle.text, _controllerDesc.text, cat);
                     }),
                 const Spacer(),
                 AppButton(
@@ -113,5 +80,46 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   _goBack(BuildContext context) {
     Navigator.of(context).pop();
+  }
+}
+
+class _ScreenCatSelector extends StatelessWidget {
+  final Function(int) onCatPressed;
+
+  const _ScreenCatSelector({
+    super.key,
+    required this.onCatPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children: [
+      const Spacer(),
+      GestureDetector(
+        onTap: () => onCatPressed(0),
+        child: const Icon(
+          Icons.work,
+          color: Colors.black,
+        ),
+      ),
+      const Spacer(),
+      GestureDetector(
+        onTap: () => onCatPressed(1),
+        child: const Icon(
+          Icons.person,
+          color: Colors.black,
+        ),
+      ),
+      const Spacer(),
+      GestureDetector(
+        onTap: () => onCatPressed(2),
+        child: const Icon(
+          Icons.sports_basketball,
+          color: Colors.black,
+        ),
+      ),
+      const Spacer(),
+    ]);
   }
 }
