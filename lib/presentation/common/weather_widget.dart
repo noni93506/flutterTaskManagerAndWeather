@@ -30,7 +30,7 @@ class WeatherWidget extends StatelessWidget { // special widget for weather
                   style: AppTextStyles.h2,
                 ),
                 Text(
-                  "відчуважться як : ${data?.main.feelsLike ?? ''}",
+                  "відчувається як : ${data?.main.feelsLike ?? ''}",
                   style: AppTextStyles.h2,
                 ),
                 const SizedBox(height: 15),
